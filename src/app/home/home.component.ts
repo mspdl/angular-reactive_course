@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { CourseDialogComponent } from "../course-dialog/course-dialog.component";
 import { Course, sortCoursesBySeqNo } from "../model/course";
+import { CoursesService } from "../services/courses.service";
 
 @Component({
   selector: "home",
@@ -14,11 +15,11 @@ export class HomeComponent implements OnInit {
 
   advancedCourses: Course[];
 
-  constructor(private http: HttpClient, private dialog: MatDialog) {}
+  constructor(private coursesService: CoursesService, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.http.get("/api/courses").subscribe((res) => {
-      const courses: Course[] = res["payload"].sort(sortCoursesBySeqNo);
+    this.coursesService.getAllCourses().subscribe((res) => {
+      const courses: Course[] = res.sort(sortCoursesBySeqNo);
 
       this.beginnerCourses = courses.filter(
         (course) => course.category == "BEGINNER"
