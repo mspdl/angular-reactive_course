@@ -24,11 +24,13 @@ export class HomeComponent implements OnInit {
     const courses$ = this.coursesService
       .getAllCourses()
       .pipe(map((courses) => courses.sort(sortCoursesBySeqNo)));
+
     this.beginnerCourses$ = courses$.pipe(
       map((courses: Course[]) =>
         courses.filter((course: Course) => course.category === "BEGINNER")
       )
     );
+
     this.advancedCourses$ = courses$.pipe(
       map((courses: Course[]) =>
         courses.filter((course: Course) => course.category === "ADVANCED")
