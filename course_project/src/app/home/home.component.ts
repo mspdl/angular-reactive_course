@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { Observable } from "rxjs";
-import { delay, finalize, map } from "rxjs/operators";
+import { Observable, throwError } from "rxjs";
+import { catchError, map } from "rxjs/operators";
 import { LoadingService } from "../loading/loading.service";
+import { MessagesServices } from "../messages/messages.service";
 import { Course, sortCoursesBySeqNo } from "../model/course";
 import { CoursesService } from "../services/courses.service";
 
@@ -16,7 +17,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private coursesService: CoursesService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private messagesServices: MessagesServices
   ) {}
 
   ngOnInit() {
@@ -24,9 +26,15 @@ export class HomeComponent implements OnInit {
   }
 
   reloadCourses() {
-    const courses$ = this.coursesService
-      .loadAllCourses()
-      .pipe(map((courses) => courses.sort(sortCoursesBySeqNo)));
+    const courses$ = this.coursesService.loadAllCourses().pipe(
+      map((courses) => courses.sort(sortCoursesBySeqNo)),
+      catchError((err) => {
+        const message = "Could not load courses";
+        this.messagesServices.showErrors(message);
+        console.log(message, err);
+        return throwError(err);
+      })
+    );
 
     const loadCourses$ = this.loadingService.isLoading(courses$);
 
