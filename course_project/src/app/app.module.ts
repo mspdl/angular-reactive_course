@@ -1,7 +1,5 @@
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-
 import { HttpClientModule } from "@angular/common/http";
+import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MatButtonModule } from "@angular/material/button";
@@ -20,6 +18,7 @@ import { MatSortModule } from "@angular/material/sort";
 import { MatTableModule } from "@angular/material/table";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AboutComponent } from "./about/about.component";
 import { AppRoutingModule } from "./app-routing.module";
@@ -31,8 +30,10 @@ import { CoursesCardListComponent } from "./courses-card-list/courses-card-list.
 import { HomeComponent } from "./home/home.component";
 import { LessonComponent } from "./lesson/lesson.component";
 import { LoadingComponent } from "./loading/loading.component";
+import { LoadingService } from "./loading/loading.service";
 import { LoginComponent } from "./login/login.component";
 import { MessagesComponent } from "./messages/messages.component";
+import { MessagesService } from "./messages/messages.service";
 import { SearchLessonsComponent } from "./search-lessons/search-lessons.component";
 
 @NgModule({
@@ -74,7 +75,7 @@ import { SearchLessonsComponent } from "./search-lessons/search-lessons.componen
     MatMomentDateModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [LoadingService, MessagesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
