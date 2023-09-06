@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { AuthStore } from "./services/auth.store";
 
 @Component({
   selector: "app-root",
@@ -6,5 +7,9 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent {
-  logout() {}
+  constructor(protected authStore: AuthStore) {}
+
+  logout() {
+    this.authStore.logout();
+  }
 }
